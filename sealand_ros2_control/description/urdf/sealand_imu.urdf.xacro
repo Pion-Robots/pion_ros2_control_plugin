@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<robot name="sealand_imu" xmlns:xacro="http://ros.org/wiki/xacro">
+    <!-- Serial device configurations -->
+    <xacro:property name="imu_serial_device" default="/dev/serial/by-id/usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_04520ac6373eee1183cf06157ba77520-if00-port0" />
+
+    <!-- IMU link -->
+    <link name="imu_link">
+        <visual>
+            <geometry>
+                <box size="0.05 0.05 0.02" />
+            </geometry>
+            <material name="blue">
+                <color rgba="0 0 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.05 0.05 0.02" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1" />
+            <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001" />
+        </inertial>
+    </link>
+
+    <!-- Base link -->
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="0.1 0.1 0.05" />
+            </geometry>
+            <material name="gray">
+                <color rgba="0.5 0.5 0.5 1" />
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.1 0.1 0.05" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.5" />
+            <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01" />
+        </inertial>
+    </link>
+
+    <!-- Joint connecting base_link to imu_link -->
+    <joint name="base_to_imu" type="fixed">
+        <parent link="base_link" />
+        <child link="imu_link" />
+        <origin xyz="0 0 0.035" rpy="0 0 0" />
+    </joint>
+
+    <xacro:include filename="$(find sealand_control)/description/ros2_control/sealand_imu.ros2_control.urdf.xacro" />
+    <xacro:sealand_imu_ros2_control name="SealandIMU" serial_device="${imu_serial_device}" baudrate="921600" />
+
+</robot>

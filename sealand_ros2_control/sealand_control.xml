@@ -1,0 +1,9 @@
+<library path="sealand_control">
+    <class name="sealand_control/IMUHardware"
+        type="sealand_control::IMUHardware"
+        base_class_type="hardware_interface::SystemInterface">
+        <description>
+            The IMU (CH-104) system interface
+        </description>
+    </class>
+</library>
