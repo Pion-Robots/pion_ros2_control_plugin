@@ -1,0 +1,45 @@
+rw_param_cybergear_id_node:
+  can_bus:
+    type: string
+    default_value: "can0"
+    description: >-
+      SocketCAN interface name of the bus the actuator is connected to (e.g. can0, can_right_leg).
+  primary_id:
+    type: int
+    default_value: 0
+    validation:
+      bounds<>: [0, 255]
+  device_id:
+    type: int
+    default_value: 127
+    description: Device id of the actuator to query
+    validation:
+      bounds<>: [0, 127]
+  param_index:
+    type: int
+    default_value: 28683
+    description: >-
+      RAM parameter index. Decimal. Useful values: 28683 (0x700b limit_torque),
+      28696 (0x7018 limit_cur), 28695 (0x7017 limit_speed), 28697 (0x7019 mech_position).
+    validation:
+      bounds<>: [0, 65535]
+  write:
+    type: bool
+    default_value: false
+    description: When true, write `value` to `param_index`, then read it back to verify.
+  value:
+    type: double
+    default_value: 0.0
+    description: Value to write when `write` is true. Encoded as a little-endian float.
+  wait_recive_can_frame:
+    type: double
+    default_value: 0.5
+    description: How long to wait for a reply (seconds)
+    validation:
+      gt<>: 0.0
+  wait_after_write:
+    type: double
+    default_value: 0.2
+    description: Settling time between the write frame and the read back (seconds)
+    validation:
+      gt<>: 0.0

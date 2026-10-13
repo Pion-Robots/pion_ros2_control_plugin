@@ -1,0 +1,337 @@
+<?xml version="1.0"?>
+<robot name="simple_robot"
+    xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+    xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+    xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+    xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <!-- Base Link -->
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="0.2 0.2 0.1" />
+            </geometry>
+            <material name="Blue">
+                <color rgba="0 0 1 1" />
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.2 0.2 0.1" />
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- Wheel Link -->
+    <link name="wheel_link">
+        <visual>
+            <geometry>
+                <cylinder length="0.1" radius="0.2" />
+            </geometry>
+            <material name="Black">
+                <color rgba="0.1 0.1 0.1 1" />
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder length="0.1" radius="0.18" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.5" />
+            <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.005" />
+        </inertial>
+    </link>
+
+    <!-- Wheel Link 2 -->
+    <link name="wheel_link2">
+        <visual>
+            <geometry>
+                <cylinder length="0.1" radius="0.2" />
+            </geometry>
+            <material name="Black">
+                <color rgba="0.1 0.1 0.1 1" />
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder length="0.1" radius="0.18" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.5" />
+            <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.005" />
+        </inertial>
+    </link>
+
+    <!-- Wheel Link 3 -->
+    <link name="wheel_link3">
+        <visual>
+            <geometry>
+                <cylinder length="0.1" radius="0.2" />
+            </geometry>
+            <material name="Black">
+                <color rgba="0.1 0.1 0.1 1" />
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder length="0.1" radius="0.18" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.5" />
+            <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.005" />
+        </inertial>
+    </link>
+
+    <!-- Wheel Link 4 -->
+    <link name="wheel_link4">
+        <visual>
+            <geometry>
+                <cylinder length="0.1" radius="0.2" />
+            </geometry>
+            <material name="Black">
+                <color rgba="0.1 0.1 0.1 1" />
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder length="0.1" radius="0.18" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.5" />
+            <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.005" />
+        </inertial>
+    </link>
+
+    <!-- Wheel Link 5 -->
+    <link name="wheel_link5">
+        <visual>
+            <geometry>
+                <cylinder length="0.1" radius="0.2" />
+            </geometry>
+            <material name="Black">
+                <color rgba="0.1 0.1 0.1 1" />
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder length="0.1" radius="0.18" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.5" />
+            <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.005" />
+        </inertial>
+    </link>
+
+    <!-- Wheel Link 6 -->
+    <link name="wheel_link6">
+        <visual>
+            <geometry>
+                <cylinder length="0.1" radius="0.2" />
+            </geometry>
+            <material name="Black">
+                <color rgba="0.1 0.1 0.1 1" />
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder length="0.1" radius="0.18" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.5" />
+            <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.005" />
+        </inertial>
+    </link>
+
+    <!-- Rotational Joint -->
+    <joint name="joint1" type="continuous">
+        <parent link="base_link" />
+        <child link="wheel_link" />
+        <origin xyz="0 0.0 0" rpy="1.5708 0 0" />
+        <axis xyz="0 0 1" />
+    </joint>
+
+    <!-- Rotational Joint 2 -->
+    <joint name="joint2" type="continuous">
+        <parent link="base_link" />
+        <child link="wheel_link2" />
+        <origin xyz="0 -1.0 0" rpy="1.5708 0 0" />
+        <axis xyz="0 0 1" />
+    </joint>
+
+    <!-- Rotational Joint 3 -->
+    <joint name="joint3" type="continuous">
+        <parent link="base_link" />
+        <child link="wheel_link3" />
+        <origin xyz="0 -2.0 0" rpy="1.5708 0 0" />
+        <axis xyz="0 0 1" />
+    </joint>
+
+    <!-- Rotational Joint 4 -->
+    <joint name="joint4" type="continuous">
+        <parent link="base_link" />
+        <child link="wheel_link4" />
+        <origin xyz="0 -3.0 0" rpy="1.5708 0 0" />
+        <axis xyz="0 0 1" />
+    </joint>
+
+    <!-- Rotational Joint 5 -->
+    <joint name="joint5" type="continuous">
+        <parent link="base_link" />
+        <child link="wheel_link5" />
+        <origin xyz="0 -4.0 0" rpy="1.5708 0 0" />
+        <axis xyz="0 0 1" />
+    </joint>
+
+    <!-- Rotational Joint 6 -->
+    <joint name="joint6" type="continuous">
+        <parent link="base_link" />
+        <child link="wheel_link6" />
+        <origin xyz="0 -5.0 0" rpy="1.5708 0 0" />
+        <axis xyz="0 0 1" />
+    </joint>
+
+    <ros2_control name="CybergearMotorWheelJoint1" type="actuator">
+        <hardware>
+            <plugin>cybergear_control/CybergearActuator</plugin>
+            <param name="can_interface">can0</param>
+            <param name="timeout_sec">3.0</param>
+            <param name="interval_sec">0.01</param>
+            <param name="motor_type">RS02</param>
+            <param name="device_id">1</param>
+            <param name="primary_id">0</param>
+            <param name="kp">10</param>
+            <param name="kd">1</param>
+        </hardware>
+        <joint name="joint1">
+            <command_interface name="position" />
+            <command_interface name="velocity" />
+            <command_interface name="effort" />
+            <state_interface name="position" />
+            <state_interface name="velocity" />
+            <state_interface name="effort" />
+            <state_interface name="temperature" />
+        </joint>
+    </ros2_control>
+
+    <ros2_control name="CybergearMotorWheelJoint2" type="actuator">
+        <hardware>
+            <plugin>cybergear_control/CybergearActuator</plugin>
+            <param name="can_interface">can0</param>
+            <param name="timeout_sec">3.0</param>
+            <param name="interval_sec">0.01</param>
+            <param name="motor_type">RS02</param>
+            <param name="device_id">2</param>
+            <param name="primary_id">0</param>
+            <param name="kp">10</param>
+            <param name="kd">1</param>
+        </hardware>
+        <joint name="joint2">
+            <command_interface name="position" />
+            <command_interface name="velocity" />
+            <command_interface name="effort" />
+            <state_interface name="position" />
+            <state_interface name="velocity" />
+            <state_interface name="effort" />
+            <state_interface name="temperature" />
+        </joint>
+    </ros2_control>
+
+    <ros2_control name="CybergearMotorWheelJoint3" type="actuator">
+        <hardware>
+            <plugin>cybergear_control/CybergearActuator</plugin>
+            <param name="can_interface">can0</param>
+            <param name="timeout_sec">3.0</param>
+            <param name="interval_sec">0.01</param>
+            <param name="motor_type">RS02</param>
+            <param name="device_id">3</param>
+            <param name="primary_id">0</param>
+            <param name="kp">10</param>
+            <param name="kd">1</param>
+        </hardware>
+        <joint name="joint3">
+            <command_interface name="position" />
+            <command_interface name="velocity" />
+            <command_interface name="effort" />
+            <state_interface name="position" />
+            <state_interface name="velocity" />
+            <state_interface name="effort" />
+            <state_interface name="temperature" />
+        </joint>
+    </ros2_control>
+
+    <ros2_control name="CybergearMotorWheelJoint4" type="actuator">
+        <hardware>
+            <plugin>cybergear_control/CybergearActuator</plugin>
+            <param name="can_interface">can0</param>
+            <param name="timeout_sec">3.0</param>
+            <param name="interval_sec">0.01</param>
+            <param name="motor_type">RS02</param>
+            <param name="device_id">4</param>
+            <param name="primary_id">0</param>
+            <param name="kp">10</param>
+            <param name="kd">1</param>
+        </hardware>
+        <joint name="joint4">
+            <command_interface name="position" />
+            <command_interface name="velocity" />
+            <command_interface name="effort" />
+            <state_interface name="position" />
+            <state_interface name="velocity" />
+            <state_interface name="effort" />
+            <state_interface name="temperature" />
+        </joint>
+    </ros2_control>
+
+    <ros2_control name="CybergearMotorWheelJoint5" type="actuator">
+        <hardware>
+            <plugin>cybergear_control/CybergearActuator</plugin>
+            <param name="can_interface">can0</param>
+            <param name="timeout_sec">3.0</param>
+            <param name="interval_sec">0.01</param>
+            <param name="motor_type">RS02</param>
+            <param name="device_id">5</param>
+            <param name="primary_id">0</param>
+            <param name="kp">10</param>
+            <param name="kd">1</param>
+        </hardware>
+        <joint name="joint5">
+            <command_interface name="position" />
+            <command_interface name="velocity" />
+            <command_interface name="effort" />
+            <state_interface name="position" />
+            <state_interface name="velocity" />
+            <state_interface name="effort" />
+            <state_interface name="temperature" />
+        </joint>
+    </ros2_control>
+
+    <ros2_control name="CybergearMotorWheelJoint6" type="actuator">
+        <hardware>
+            <plugin>cybergear_control/CybergearActuator</plugin>
+            <param name="can_interface">can0</param>
+            <param name="timeout_sec">3.0</param>
+            <param name="interval_sec">0.01</param>
+            <param name="motor_type">RS02</param>
+            <param name="device_id">6</param>
+            <param name="primary_id">0</param>
+            <param name="kp">10</param>
+            <param name="kd">1</param>
+        </hardware>
+        <joint name="joint6">
+            <command_interface name="position" />
+            <command_interface name="velocity" />
+            <command_interface name="effort" />
+            <state_interface name="position" />
+            <state_interface name="velocity" />
+            <state_interface name="effort" />
+            <state_interface name="temperature" />
+        </joint>
+    </ros2_control>
+
+</robot>
