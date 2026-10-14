@@ -91,6 +91,7 @@ class CybergearActuator : public ActuatorInterface {
 
     return_type result_;
     bool calibrate_on_activate_ = false;
+    int axis_direction_ = 1;  // 1 = normal, -1 = reversed
 
     std::chrono::nanoseconds timeout_ns_;
     std::unique_ptr<drivers::socketcan::SocketCanSender> sender_;

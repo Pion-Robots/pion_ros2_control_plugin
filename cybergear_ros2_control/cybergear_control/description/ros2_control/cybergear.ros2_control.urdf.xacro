@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:macro name="cybergear_ros2_control" params="name canbus motor_type device_id kp kd joint_name">
+  <xacro:macro name="cybergear_ros2_control" params="name canbus motor_type device_id kp kd joint_name axis_direction:=1">
     <ros2_control name="${name}" type="actuator">
         <hardware>
             <plugin>cybergear_control/CybergearActuator</plugin>
@@ -13,6 +13,7 @@
             <param name="kp">${kp}</param>
             <param name="kd">${kd}</param>
             <param name="calibrate_on_activate">false</param>
+            <param name="axis_direction">${axis_direction}</param>
         </hardware>
         <joint name="${joint_name}">
             <command_interface name="position"/>

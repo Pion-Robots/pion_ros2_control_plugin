@@ -117,6 +117,17 @@ CallbackReturn CybergearActuator::on_configure(const rclcpp_lifecycle::State& /*
     }
     RCLCPP_INFO(get_logger(), "calibrate_on_activate: %s", calibrate_on_activate_ ? "true" : "false");
 
+    // Read axis_direction parameter (default: 1). Needed e.g. for mirror-mounted mecanum wheels,
+    // because the mecanum_drive_controller ignores the URDF joint axes.
+    if (info_.hardware_parameters.find("axis_direction") != info_.hardware_parameters.end()) {
+        axis_direction_ = std::stoi(info_.hardware_parameters["axis_direction"]);
+        if (axis_direction_ != 1 && axis_direction_ != -1) {
+            RCLCPP_ERROR(get_logger(), "axis_direction must be 1 or -1, got %d", axis_direction_);
+            return CallbackReturn::FAILURE;
+        }
+    }
+    RCLCPP_INFO(get_logger(), "axis_direction: %d", axis_direction_);
+
     try {
         sender_ = std::make_unique<drivers::socketcan::SocketCanSender>(can_interface_, false);
     } catch (const std::exception& ex) {
@@ -437,9 +448,9 @@ hardware_interface::return_type CybergearActuator::perform_command_mode_switch(c
 
 return_type CybergearActuator::read(const rclcpp::Time& /*time*/, const rclcpp::Duration& /*period*/) {
     auto feedback = rtb_feedback_.readFromRT();
-    joint_states_[SIF_POSITION] = packet_->parsePosition(feedback->data);
-    joint_states_[SIF_VELOCITY] = packet_->parseVelocity(feedback->data);
-    joint_states_[SIF_EFFORT] = packet_->parseEffort(feedback->data);
+    joint_states_[SIF_POSITION] = axis_direction_ * packet_->parsePosition(feedback->data);
+    joint_states_[SIF_VELOCITY] = axis_direction_ * packet_->parseVelocity(feedback->data);
+    joint_states_[SIF_EFFORT] = axis_direction_ * packet_->parseEffort(feedback->data);
     joint_states_[SIF_TEMPERATURE] = packet_->parseTemperature(feedback->data);
     // RCLCPP_INFO(get_logger(),
     //             "State %x %x %x %x %x %x %x %x, Position: %f, Speed: %f, "
@@ -515,9 +526,9 @@ return_type CybergearActuator::write(const rclcpp::Time& /*time*/, const rclcpp:
     cybergear_driver_core::MoveParam param;
     switch (command_mode_) {
         case cybergear_driver_core::run_modes::OPERATION:
-            param.position = joint_commands_[HIF_POSITION];
-            param.velocity = joint_commands_[HIF_VELOCITY];
-            param.effort = joint_commands_[HIF_EFFORT];
+            param.position = axis_direction_ * joint_commands_[HIF_POSITION];
+            param.velocity = axis_direction_ * joint_commands_[HIF_VELOCITY];
+            param.effort = axis_direction_ * joint_commands_[HIF_EFFORT];
             param.kp = joint_commands_[HIF_KP];
             param.kd = joint_commands_[HIF_KD];
             // RCLCPP_INFO_THROTTLE(get_logger(), *get_clock(), 1000,
@@ -526,13 +537,13 @@ return_type CybergearActuator::write(const rclcpp::Time& /*time*/, const rclcpp:
             frame = packet_->createMoveCommand(param);
             break;
         case cybergear_driver_core::run_modes::CURRENT:
-            frame = packet_->createCurrentCommand(joint_commands_[HIF_CURRENT]);
+            frame = packet_->createCurrentCommand(axis_direction_ * joint_commands_[HIF_CURRENT]);
             break;
         case cybergear_driver_core::run_modes::SPEED:
-            frame = packet_->createVelocityCommand(joint_commands_[HIF_VELOCITY]);
+            frame = packet_->createVelocityCommand(axis_direction_ * joint_commands_[HIF_VELOCITY]);
             break;
         case cybergear_driver_core::run_modes::POSITION:
-            frame = packet_->createPositionCommand(joint_commands_[HIF_POSITION]);
+            frame = packet_->createPositionCommand(axis_direction_ * joint_commands_[HIF_POSITION]);
             break;
     }
 
