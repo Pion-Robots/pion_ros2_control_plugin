@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- Single Dynamixel joint, driven through dynamixel_hardware_interface/DynamixelHardware.
+         Call it once for every motor. Every motor is its own ros2_control system, so give each one a unique name
+         and its own serial_device when they are on different buses.
+         driver_mode is the Dynamixel "Drive Mode" register, 0: normal direction, 1: reversed direction. -->
+    <xacro:macro name="dynamixel_ros2_control" params="name serial_device device_id joint_name baud_rate:=1000000 driver_mode:=0">
+        <ros2_control name="${name}" type="system">
+            <hardware>
+                <plugin>dynamixel_hardware_interface/DynamixelHardware</plugin>
+                <param name="port_name">${serial_device}</param>
+                <param name="baud_rate">${baud_rate}</param>
+                <param name="error_timeout_ms">500</param>
+                <param name="disable_torque_at_init">true</param>
+                <param name="dynamixel_model_folder">/param/dxl_model</param>
+                <param name="number_of_joints">1</param>
+                <param name="number_of_transmissions">1</param>
+                <param name="dynamixel_state_pub_msg_name">dynamixel_hardware_interface/dxl_state</param>
+                <param name="get_dynamixel_data_srv_name">dynamixel_hardware_interface/get_dxl_data</param>
+                <param name="set_dynamixel_data_srv_name">dynamixel_hardware_interface/set_dxl_data</param>
+                <param name="reboot_dxl_srv_name">dynamixel_hardware_interface/reboot_dxl</param>
+                <param name="set_dxl_torque_srv_name">dynamixel_hardware_interface/set_dxl_torque</param>
+            </hardware>
+
+            <joint name="${joint_name}">
+                <command_interface name="position"/>
+                <state_interface name="position"/>
+                <state_interface name="velocity"/>
+                <state_interface name="effort"/>
+            </joint>
+
+            <gpio name="dxl_${device_id}">
+                <param name="type">dxl</param>
+                <param name="ID">${device_id}</param>
+                <param name="Drive Mode">${driver_mode}</param>
+                <param name="Return Delay Time">0</param>
+                <param name="Position P Gain">800</param>
+                <param name="Position I Gain">0</param>
+                <param name="Position D Gain">0</param>
+                <param name="Profile Velocity">0</param>
+                <param name="Profile Acceleration">0</param>
+                <state_interface name="Present Position"/>
+                <state_interface name="Present Velocity"/>
+                <state_interface name="Present Current"/>
+                <state_interface name="Torque Enable"/>
+                <state_interface name="Present Input Voltage"/>               
+                <command_interface name="Goal Position"/>
+            </gpio>
+
+            <transmission name="${joint_name}_transmission">
+                <plugin>transmission_interface/SimpleTransmission</plugin>
+                <actuator name="${joint_name}_motor" role="${joint_name}_motor" />
+                <joint name="${joint_name}" role="${joint_name}">
+                    <mechanical_reduction>1</mechanical_reduction>
+                </joint>
+            </transmission>
+        </ros2_control>
+    </xacro:macro>
+</robot>
