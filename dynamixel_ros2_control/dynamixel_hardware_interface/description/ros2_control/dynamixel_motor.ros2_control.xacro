@@ -32,12 +32,19 @@
             <gpio name="dxl_${device_id}">
                 <param name="type">dxl</param>
                 <param name="ID">${device_id}</param>
-                <command_interface name="Goal Position"/>
+                <param name="Drive Mode">${driver_mode}</param>
+                <param name="Return Delay Time">0</param>
+                <param name="Position P Gain">800</param>
+                <param name="Position I Gain">0</param>
+                <param name="Position D Gain">0</param>
+                <param name="Profile Velocity">0</param>
+                <param name="Profile Acceleration">0</param>
                 <state_interface name="Present Position"/>
                 <state_interface name="Present Velocity"/>
                 <state_interface name="Present Current"/>
-                <param name="Drive Mode">${driver_mode}</param>
-                <param name="Return Delay Time">0</param>
+                <state_interface name="Torque Enable"/>
+                <state_interface name="Present Input Voltage"/>               
+                <command_interface name="Goal Position"/>
             </gpio>
 
             <transmission name="${joint_name}_transmission">
